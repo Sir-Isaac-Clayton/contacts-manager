@@ -37,4 +37,8 @@ public class ContactDatabase {
         }
         return result;
     }
+
+    public List<Contact> getAllContacts() {
+        return contacts;
+    }
 }

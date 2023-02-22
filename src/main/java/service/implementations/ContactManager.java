@@ -64,7 +64,7 @@ public class ContactManager implements Manager {
     }
 
     private void showAllContacts() {
-        System.out.println("all");
+        db.getAllContacts().forEach(System.out::println);
     }
 
 
