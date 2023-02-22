@@ -9,6 +9,7 @@ public interface Manager {
     public void printMenu();
     public void addContact(Contact contact);
     public List<Contact> getContacts();
-    public void searchContacts(String name);
-    public void removeContact(Contact contact);
+    public Contact searchContacts(String name);
+    public void removeContact(String name);
+    public void doChoice(int choice);
 }

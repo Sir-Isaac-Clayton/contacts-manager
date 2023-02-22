@@ -18,8 +18,13 @@ public class ContactDatabase {
         contacts.add(contact);
     }
 
-    public void removeContact(Contact contact) {
-        contacts.add(contact);
+    public void removeContact(String name) {
+        for (Contact contact : contacts) {
+            if(name.equals(contact.getName())) {
+                contacts.remove(contact);
+                break;
+            }
+        }
     }
 
     public Contact getContact(String name) {
