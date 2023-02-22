@@ -2,9 +2,9 @@ package data;
 
 public class Contact {
 
-    public String name;
+    private String name;
 
-    public String phoneNumber;
+    private String phoneNumber;
 
     public Contact(String name, String phoneNumber) {
         this.name = name;

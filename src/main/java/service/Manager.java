@@ -10,4 +10,5 @@ public interface Manager {
     public void addContact(Contact contact);
     public List<Contact> getContacts();
     public void searchContacts(String name);
+    public void removeContact(Contact contact);
 }
