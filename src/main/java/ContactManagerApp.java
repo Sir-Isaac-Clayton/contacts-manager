@@ -1,8 +1,10 @@
-import java.util.Scanner;
+import service.Input;
+
 
 public class ContactManagerApp {
-    public static int getUserInput(){
-        Scanner Input = new Scanner(System.in);
+
+
+    private static void printMenu() {
         System.out.println("what would you like to do?\n");
 
         System.out.println("1 - View contacts.");
@@ -10,8 +12,6 @@ public class ContactManagerApp {
         System.out.println("3 - Search a contact by name.");
         System.out.println("4 - Delete an existing contact.");
         System.out.println("5 - exit");
-        return Input.nextInt();
-
     }
 
     private static void doChoice(int choice){
@@ -24,17 +24,21 @@ public class ContactManagerApp {
     }
 
     public static void main(String[] args) {
+        try(Input input = new Input()) {
 
+            while(true){
 
-        while(true){
-            int choice = getUserInput();
+                printMenu();
 
-            doChoice(choice);
+                int choice = input.getInteger(1, 5);
 
-            if (choice == 5){
-                break;
+                doChoice(choice);
+
+                if (choice == 5){
+                    break;
+                }
+
             }
-
         }
     }
 }
