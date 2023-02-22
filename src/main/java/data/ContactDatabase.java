@@ -27,6 +27,15 @@ public class ContactDatabase {
         }
     }
 
+    public void editContact(Contact contact) {
+        for (Contact c : contacts) {
+            if(contact.getName().equals(c.getName())) {
+                c.setPhoneNumber(contact.getPhoneNumber());
+                break;
+            }
+        }
+    }
+
     public Contact getContact(String name) {
         Contact result = null;
         for (Contact contact : contacts) {
@@ -36,5 +45,9 @@ public class ContactDatabase {
             }
         }
         return result;
+    }
+
+    public List<Contact> getAllContacts() {
+        return contacts;
     }
 }

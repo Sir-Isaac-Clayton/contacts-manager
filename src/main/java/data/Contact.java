@@ -13,10 +13,7 @@ public class Contact {
 
     @Override
     public String toString() {
-        return "Contact{" +
-                "name='" + name + '\'' +
-                ", phoneNumber=" + phoneNumber +
-                '}';
+        return String.format("%25s | %s", name, phoneNumber);
     }
 
     //accessors
