@@ -2,6 +2,7 @@ package service.implementations;
 
 import data.Contact;
 import data.ContactDatabase;
+import service.Input;
 import service.Manager;
 
 import java.util.List;
@@ -10,10 +11,11 @@ public class ContactManager implements Manager {
 
     private ContactDatabase db;
 
+    private Input input;
+
     public ContactManager() {
         db = new ContactDatabase();
     }
-
 
     @Override
     public void run() {
@@ -33,7 +35,7 @@ public class ContactManager implements Manager {
 
     @Override
     public void addContact(Contact contact) {
-
+        db.addContact(contact);
     }
 
     @Override
