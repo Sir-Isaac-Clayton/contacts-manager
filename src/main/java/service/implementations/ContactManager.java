@@ -12,6 +12,11 @@ public class ContactManager implements Manager {
     }
 
     @Override
+    public void removeContact(Contact contact) {
+
+    }
+
+    @Override
     public void printMenu() {
 
     }
