@@ -55,6 +55,8 @@ public class ContactManager implements Manager {
     }
 
     private void searchForContact() {
+        String name = input.getString("Who are you looking for?");
+        db.getContact(name);
     }
 
     private void addNewContact() {
