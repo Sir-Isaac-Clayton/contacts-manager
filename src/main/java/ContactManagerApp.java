@@ -16,11 +16,19 @@ public class ContactManagerApp {
 
     private static void doChoice(int choice){
         switch (choice) {
-//            case 1 -> getAllMovies();
-//            case 2 -> getMoviesByCategory("animated");
+            case 1 -> showAllContacts();
+            case 2 -> addNewContact();
 //            case 3 -> getMoviesByCategory("drama");
 //            case 4 -> getMoviesByCategory("horror");
         }
+    }
+
+    private static void addNewContact() {
+        System.out.println("new contact");
+    }
+
+    private static void showAllContacts() {
+        System.out.println("all");
     }
 
     public static void main(String[] args) {
