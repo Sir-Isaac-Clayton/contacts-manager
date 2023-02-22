@@ -9,9 +9,9 @@ import java.util.List;
 
 public class ContactManager implements Manager {
 
-    private ContactDatabase db;
+    private final ContactDatabase db;
 
-    private Input input;
+    private final Input input;
 
     public ContactManager(Input input) {
         db = new ContactDatabase();
@@ -49,7 +49,7 @@ public class ContactManager implements Manager {
         }
     }
 
-    private void deleteContact(String response) {
+    private void deleteContact() {
         String name = input.getString("Who do you want to delete?");
         db.removeContact(name);
     }
@@ -58,7 +58,9 @@ public class ContactManager implements Manager {
     }
 
     private void addNewContact() {
-        System.out.println("new contact");
+        String name = input.getString("Enter the name of the contact: ");
+        String phoneNumber = input.getString("Enter the phone number of the contact: ");
+        db.addContact(new Contact(name, phoneNumber));
     }
 
     private void showAllContacts() {
