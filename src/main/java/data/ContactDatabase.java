@@ -66,7 +66,7 @@ public class ContactDatabase implements IContactWriter {
     public Contact getContact(String name) {
         Contact result = null;
         for (Contact contact : contacts) {
-            if(name.equals(contact.getName())) {
+            if(name.equalsIgnoreCase(contact.getName())) {
                 result = contact;
                 break;
             }

@@ -13,7 +13,9 @@ public class Contact {
 
     @Override
     public String toString() {
-        return String.format("%25s | %s", name, phoneNumber);
+        String fName = name+" ".repeat(20-name.length());
+        String fPhoneNumber = "(" + phoneNumber.substring(0,3) + ") " + phoneNumber.substring(3,6) + "-" + phoneNumber.substring(6);
+        return String.format("| %s | %s |", fName, fPhoneNumber);
     }
 
     //accessors

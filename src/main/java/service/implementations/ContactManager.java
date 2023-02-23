@@ -36,11 +36,13 @@ public class ContactManager implements Manager {
 
     @Override
     public void printMenu() {
-        System.out.println(ANSI_BLUE + "1 - View contacts." + ANSI_RESET);
-        System.out.println(ANSI_BLUE + "2 - Add a new contact." + ANSI_RESET);
-        System.out.println(ANSI_BLUE + "3 - Search a contact by name." + ANSI_RESET);
-        System.out.println(ANSI_BLUE + "4 - Delete an existing contact." + ANSI_RESET);
-        System.out.println(ANSI_BLUE + "5 - exit" + ANSI_RESET);
+        System.out.format(ANSI_BLUE + """
+                1 - View contacts.
+                2 - Add a new contact.
+                3 - Search a contact by name.
+                4 - Delete an existing contact.
+                5 - exit%n
+                """ + ANSI_RESET);
     }
 
     @Override
@@ -71,7 +73,15 @@ public class ContactManager implements Manager {
     @Override
     public void addContact() {
         String name = input.getString(ANSI_YELLOW + "Enter the name of the contact: " + ANSI_RESET);
-        String phoneNumber = input.getString(ANSI_YELLOW + "Enter the phone number of the contact: " + ANSI_RESET);
+        String phoneNumber;
+        boolean isValidPhoneNumber;
+        do {
+            phoneNumber = input.getString(ANSI_YELLOW + "Enter the 10-digit phone number of the contact [digits only]: " + ANSI_RESET);
+            isValidPhoneNumber = isValidPhoneNumber(phoneNumber);
+            if (!isValidPhoneNumber) {
+                System.out.format(ANSI_RED + "%nInvalid phone number. Please try again.%n%n" + ANSI_RESET);
+            }
+        } while (!isValidPhoneNumber);
         Contact contact = new Contact(name, phoneNumber);
         if (db.getContact(name) != null){
             String prompt = String.format(ANSI_RED + "There is already a contact named %s. Would you like to overwrite it? [y/n] " + ANSI_RESET, name);
@@ -83,6 +93,10 @@ public class ContactManager implements Manager {
         }
         db.addContact(contact);
         System.out.format(ANSI_BLUE + "%nContact added!%n%n" + ANSI_RESET);
+    }
+
+    private boolean isValidPhoneNumber(String phoneNumber) {
+        return phoneNumber.length() == 10 && phoneNumber.matches("[0-9]+");
     }
 
     @Override
