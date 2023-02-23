@@ -2,6 +2,7 @@ package service.implementations;
 
 import data.Contact;
 import data.ContactDatabase;
+import org.apache.commons.text.WordUtils;
 import service.Input;
 import service.Manager;
 
@@ -31,7 +32,7 @@ public class ContactManager implements Manager {
             return;
         }
         db.removeContact(name);
-        System.out.format(ANSI_BLUE + "%nContact %s has been deleted.%n%n" + ANSI_RESET, name);
+        System.out.format(ANSI_BLUE + "%nContact '%s' has been deleted.%n%n" + ANSI_RESET, WordUtils.capitalizeFully(name));
     }
 
     @Override
@@ -73,21 +74,13 @@ public class ContactManager implements Manager {
     @Override
     public void addContact() {
         String name = input.getString(ANSI_YELLOW + "Enter the name of the contact: " + ANSI_RESET);
-        String phoneNumber;
-        boolean isValidPhoneNumber;
-        do {
-            phoneNumber = input.getString(ANSI_YELLOW + "Enter the 10-digit phone number of the contact [digits only]: " + ANSI_RESET);
-            isValidPhoneNumber = isValidPhoneNumber(phoneNumber);
-            if (!isValidPhoneNumber) {
-                System.out.format(ANSI_RED + "%nInvalid phone number. Please try again.%n%n" + ANSI_RESET);
-            }
-        } while (!isValidPhoneNumber);
-        Contact contact = new Contact(name, phoneNumber);
+        String phoneNumber = getContactPhoneNumber();
+        Contact contact = new Contact(WordUtils.capitalizeFully(name), phoneNumber);
         if (db.getContact(name) != null){
-            String prompt = String.format(ANSI_RED + "There is already a contact named %s. Would you like to overwrite it? [y/n] " + ANSI_RESET, name);
+            String prompt = String.format(ANSI_RED + "%nThere is already a contact named %s. Would you like to overwrite it? [y/n] " + ANSI_RESET, name);
             if (input.yesNo(prompt)) {
                 db.editContact(contact);
-                System.out.format(ANSI_BLUE + "%nContact %s has been updated.%n" + ANSI_RESET, contact.getName());
+                System.out.format(ANSI_BLUE + "%nContact '%s' has been updated.%n%n" + ANSI_RESET, contact.getName());
                 return;
             }
         }
@@ -95,8 +88,20 @@ public class ContactManager implements Manager {
         System.out.format(ANSI_BLUE + "%nContact added!%n%n" + ANSI_RESET);
     }
 
-    private boolean isValidPhoneNumber(String phoneNumber) {
-        return phoneNumber.length() == 10 && phoneNumber.matches("[0-9]+");
+    private String getContactPhoneNumber() {
+        String phoneNumber;
+        do {
+            phoneNumber = input.getString(ANSI_YELLOW + "Enter the 10-digit phone number of the contact [digits only]: " + ANSI_RESET);
+        } while (!validatedPhoneNumber(phoneNumber));
+        return phoneNumber;
+    }
+
+    private boolean validatedPhoneNumber(String phoneNumber) {
+        boolean isvalid = phoneNumber.length() == 10 && phoneNumber.matches("[0-9]+");
+        if (!isvalid) {
+            System.out.format(ANSI_RED + "%nInvalid phone number. Please try again.%n%n" + ANSI_RESET);
+        }
+        return isvalid;
     }
 
     @Override

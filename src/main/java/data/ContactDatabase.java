@@ -47,7 +47,7 @@ public class ContactDatabase implements IContactWriter {
 
     public void removeContact(String name) {
         for (Contact contact : contacts) {
-            if(name.equals(contact.getName())) {
+            if(name.equalsIgnoreCase(contact.getName())) {
                 contacts.remove(contact);
                 break;
             }
