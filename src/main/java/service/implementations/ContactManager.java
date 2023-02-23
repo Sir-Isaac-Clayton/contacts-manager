@@ -54,7 +54,7 @@ public class ContactManager implements IManager {
                     
                     %s
                     
-                    """, renderYellow(title));
+                    """, title);
 
         while(true){
 
