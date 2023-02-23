@@ -16,6 +16,8 @@ public class ContactManager implements Manager {
 
 
 
+
+
     private final ContactDatabase db;
 
     private final Input input;
@@ -37,13 +39,13 @@ public class ContactManager implements Manager {
 
     @Override
     public void printMenu() {
-        System.out.format(ANSI_BLUE + """
+        System.out.format("""
                 1 - View contacts.
                 2 - Add a new contact.
                 3 - Search a contact by name.
                 4 - Delete an existing contact.
                 5 - exit%n
-                """ + ANSI_RESET);
+                """);
     }
 
     @Override
