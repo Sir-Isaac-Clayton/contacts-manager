@@ -2,6 +2,12 @@ import service.Input;
 import service.Manager;
 import service.implementations.ContactManager;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.List;
+
 
 public class ContactManagerApp {
     public static final String ANSI_RESET = "\u001B[0m";
@@ -9,11 +15,32 @@ public class ContactManagerApp {
 
 
 
-
+    public static String importTitle() {
+        StringBuilder sb = new StringBuilder();
+        try {
+            Path path = Paths.get("src/main/resources/title.txt");
+            if (Files.exists(path)) {
+                List<String> lines = Files.readAllLines(path);
+                for (String line : lines) {
+                    sb.append(line).append("\n");
+                }
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        return sb.toString();
+    }
     public static void main(String[] args) {
+        String title = importTitle();
         try(Input input = new Input()) {
             Manager manager = new ContactManager(input);
-            System.out.format(ANSI_YELLOW + "Contact Manager Database%n%n" + ANSI_RESET);
+            System.out.format(ANSI_YELLOW + """
+                    
+                    
+                    %s
+                    
+                    """ + ANSI_RESET, title);
+
             while(true){
 
                 manager.printMenu();
