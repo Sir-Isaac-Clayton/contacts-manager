@@ -1,40 +1,44 @@
 package data;
 
-import java.io.File;
+import service.implementations.ContactWriter;
+import service.implementations.IContactWriter;
+
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ContactDatabase {
+public class ContactDatabase implements IContactWriter {
     List<Contact> contacts;
-
+    IContactWriter writer;
 
     public ContactDatabase() {
         this.contacts = new ArrayList<>();
         importContacts();
+        writer = new ContactWriter();
     }
 
     private void importContacts() {
+
         try {
-            List<String> lines = Files.readAllLines(Paths.get("contacts.txt"));
-            int counter = 0;
-            for (String line : lines) {
-               String [] arr = line.split(",");
-               counter += 1;
-               contacts.add(new Contact(arr[0], arr[1]));
+            Path path = Paths.get("contacts.txt");
+            if (Files.exists(path)) {
+                List<String> lines = Files.readAllLines(path);
+                int counter = 0;
+                for (String line : lines) {
+                   String [] arr = line.split(",");
+                   counter += 1;
+                   contacts.add(new Contact(arr[0], arr[1]));
+                }
+                System.out.format("%d imported into database", counter);
             }
-//            System.out.format("%d imported into database", counter);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
 
 
-    }
-
-    public void addAllContacts(List<Contact> contacts) {
-        this.contacts.addAll(contacts);
     }
 
     public void addContact(Contact contact) {
@@ -73,4 +77,10 @@ public class ContactDatabase {
     public List<Contact> getAllContacts() {
         return contacts;
     }
+
+    @Override
+    public void writeContact(String contact) {
+        writer.writeContact(contact);
+    }
+
 }

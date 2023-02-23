@@ -5,6 +5,8 @@ import data.ContactDatabase;
 import service.Input;
 import service.Manager;
 
+import java.util.List;
+
 public class ContactManager implements Manager {
 
     private final ContactDatabase db;
@@ -87,5 +89,10 @@ public class ContactManager implements Manager {
     @Override
     public Contact searchContacts(String name) {
         return db.getContact(name);
+    }
+
+    public void writeToFile(){
+        List<Contact> contacts = db.getAllContacts();
+        contacts.forEach(contact -> db.writeContact(contact.getName() + "," + contact.getPhoneNumber()));
     }
 }
