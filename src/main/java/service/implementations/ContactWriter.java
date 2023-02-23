@@ -15,7 +15,7 @@ public class ContactWriter implements IContactWriter {
             if(!Files.exists(path)) {
                 Files.createFile(path);
             }
-            Files.write(path, Arrays.asList(contact), StandardOpenOption.APPEND);
+            Files.write(path, Arrays.asList(contact), StandardOpenOption.WRITE);
         } catch (IOException e) {
             System.err.format("Error writing contact '{%s}' to file: %s%n", contact, e.getMessage());
         }
