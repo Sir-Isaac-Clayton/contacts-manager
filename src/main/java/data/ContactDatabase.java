@@ -82,4 +82,8 @@ public class ContactDatabase implements IContactWriter {
         writer.writeContact(contact);
     }
 
+    public int size() {
+        return contacts.size();
+    }
+
 }

@@ -28,7 +28,7 @@ public class ContactManager implements IManager {
     @Override
     public void removeContact(String name) {
         if(searchContacts(name) == null){
-            System.out.format(renderRed("%nContact %s not found.%n%n"), name);
+            System.out.format(renderRed("%n⚠ Contact '%s' not found.%n%n"), WordUtils.capitalizeFully(name));
             return;
         }
         db.removeContact(name);
@@ -92,11 +92,16 @@ public class ContactManager implements IManager {
     private void searchForContact() {
         String name = input.getString(renderYellow("Who are you looking for? "));
         if(searchContacts(name) == null){
-            System.out.format(renderRed("%nContact %s not found.%n%n"), name);
+            System.out.format(renderRed("%n⚠ Contact '%s' not found.%n%n"), WordUtils.capitalizeFully(name));
             return;
         }
         Contact contact = searchContacts(name);
-        System.out.format(renderBlue("%n%s%n%n"), contact);
+        StringBuilder sb = new StringBuilder();
+        sb.append(getDbHeader())
+                .append(contact)
+                .append("\n")
+                .append("└──────────────────────┴────────────────┘");
+        System.out.format(renderBlue("%s%n%n"), sb);
     }
 
     @Override
@@ -105,7 +110,7 @@ public class ContactManager implements IManager {
         String phoneNumber = getContactPhoneNumber();
         Contact contact = new Contact(WordUtils.capitalizeFully(name), phoneNumber);
         if (db.getContact(name) != null){
-            String prompt = String.format(renderRed("%nThere is already a contact named %s. Would you like to overwrite it? [y/n] "), name);
+            String prompt = String.format(renderRed("%n⚠ There is already a contact named %s. Would you like to overwrite it? [y/n] "), name);
             if (input.yesNo(prompt)) {
                 db.editContact(contact);
                 System.out.format(renderBlue("%nContact '%s' has been updated.%n%n"), contact.getName());
@@ -127,7 +132,7 @@ public class ContactManager implements IManager {
     private boolean validatedPhoneNumber(String phoneNumber) {
         boolean isvalid = phoneNumber.length() == 10 && phoneNumber.matches("[0-9]+");
         if (!isvalid) {
-            System.out.format(renderRed("%nInvalid phone number. Please try again.%n%n"));
+            System.out.format(renderRed("%n⚠ Invalid phone number. Please try again.%n%n"));
         }
         return isvalid;
     }
@@ -135,12 +140,32 @@ public class ContactManager implements IManager {
     @Override
     public void getContacts() {
         if (db.getAllContacts().isEmpty()){
-            System.out.format(renderRed("%nNo contacts found%n%n"));
+            System.out.format(renderRed("%n⚠ No contacts found%n%n"));
             return;
         }
-        System.out.println();
-        db.getAllContacts().forEach(System.out::println);
-        System.out.println();
+        List<Contact> contacts = db.getAllContacts();
+        StringBuilder sb = new StringBuilder();
+        sb.append(getDbHeader());
+        for (int i = 0; i < db.size(); i++) {
+            sb.append(contacts.get(i)).append("\n");
+            if (i < contacts.size()- 1) {
+                sb.append("├──────────────────────┼────────────────┤")
+                        .append("\n");
+            } else {
+                sb.append("└──────────────────────┴────────────────┘")
+                        .append("\n");
+            }
+        }
+        System.out.println(renderBlue(sb.toString()));
+    }
+
+    private String getDbHeader() {
+        return """
+                
+                ┌──────────────────────┬────────────────┐
+                │ Name                 │ Phone Number   │
+                ├──────────────────────┼────────────────┤
+                """;
     }
 
     @Override

@@ -37,7 +37,7 @@ public class Input implements AutoCloseable {
         boolean nextLineHasInt = nextLineHasInt(nextLine);
         int userInput = !nextLineHasInt ? (min-1) : Integer.parseInt(nextLine);
         if (userInput < min || userInput > max) {
-            System.out.format(renderRed("%nInvalid input. Please enter a number between %d and %d.%n%n"), min, max);
+            System.out.format(renderRed("%n⚠ Invalid input. Please enter a number between %d and %d.%n%n"), min, max);
             return getInteger(min, max);
         }
         return userInput;
