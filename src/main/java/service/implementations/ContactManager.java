@@ -65,7 +65,7 @@ public class ContactManager implements Manager {
             return;
         }
         Contact contact = searchContacts(name);
-        System.out.format("%n%s%n%n", contact);
+        System.out.format(ANSI_BLUE + "%n%s%n%n" + ANSI_RESET, contact);
     }
 
     @Override
@@ -88,7 +88,7 @@ public class ContactManager implements Manager {
     @Override
     public void getContacts() {
         if (db.getAllContacts().isEmpty()){
-            System.out.format("%nNo contacts found%n%n");
+            System.out.format(ANSI_RED + "%nNo contacts found%n%n" + ANSI_RESET);
             return;
         }
         System.out.println();
