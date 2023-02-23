@@ -25,13 +25,10 @@ public class ContactDatabase implements IContactWriter {
             Path path = Paths.get("contacts.txt");
             if (Files.exists(path)) {
                 List<String> lines = Files.readAllLines(path);
-                int counter = 0;
                 for (String line : lines) {
                    String [] arr = line.split(",");
-                   counter += 1;
                    contacts.add(new Contact(arr[0], arr[1]));
                 }
-                System.out.format("%d imported into database", counter);
             }
         } catch (IOException e) {
             throw new RuntimeException(e);
