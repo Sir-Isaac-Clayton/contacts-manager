@@ -23,5 +23,9 @@ Contacts Manager is a command line application for keeping track of "contacts". 
    5 [return] will exit the application and write the database contacts to disk.
 
 ## Authors
-[@cpriestley](https://github.com/cpriestley)
-[@isaachern123](https://github.com/isaachern123)
+| Authors           | Github                                           |
+|-------------------|--------------------------------------------------|
+| Clayton Priestley | [@cpriestley](https://github.com/cpriestley)     |
+| Isaac Hernandez   | [@isaachern123](https://github.com/isaachern123) |
+
+
