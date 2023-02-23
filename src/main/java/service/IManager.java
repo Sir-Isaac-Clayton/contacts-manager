@@ -2,7 +2,8 @@ package service;
 
 import data.Contact;
 
-public interface Manager {
+public interface IManager {
+    void run();
     void printMenu();
     void addContact();
     void getContacts();

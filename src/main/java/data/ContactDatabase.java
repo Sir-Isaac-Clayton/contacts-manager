@@ -1,7 +1,6 @@
 package data;
 
-import service.implementations.ContactWriter;
-import service.implementations.IContactWriter;
+import service.IContactWriter;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -14,10 +13,10 @@ public class ContactDatabase implements IContactWriter {
     List<Contact> contacts;
     IContactWriter writer;
 
-    public ContactDatabase() {
+    public ContactDatabase(IContactWriter writer) {
         this.contacts = new ArrayList<>();
+        this.writer = writer;
         importContacts();
-        writer = new ContactWriter();
     }
 
     private void importContacts() {

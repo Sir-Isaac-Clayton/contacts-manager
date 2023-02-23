@@ -1,4 +1,4 @@
-package service.implementations;
+package service;
 
 public interface IContactWriter {
     void writeContact(String contact);
