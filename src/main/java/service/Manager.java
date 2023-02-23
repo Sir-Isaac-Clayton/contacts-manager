@@ -9,4 +9,5 @@ public interface Manager {
     Contact searchContacts(String name);
     void removeContact(String name);
     void doChoice(int choice);
+    void writeToFile();
 }

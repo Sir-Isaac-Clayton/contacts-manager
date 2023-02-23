@@ -20,6 +20,7 @@ public class ContactManagerApp {
 
                 if (choice == 5){
                     System.out.format("%nGoodbye!");
+                    manager.writeToFile();
                     break;
                 }
 
