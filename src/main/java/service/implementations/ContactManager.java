@@ -8,6 +8,12 @@ import service.Manager;
 import java.util.List;
 
 public class ContactManager implements Manager {
+    public static final String ANSI_RESET = "\u001B[0m";
+    public static final String ANSI_BLUE = "\u001B[34m";
+    public static final String ANSI_RED = "\u001B[31m";
+    public static final String ANSI_YELLOW = "\u001B[33m";
+
+
 
     private final ContactDatabase db;
 
@@ -21,20 +27,20 @@ public class ContactManager implements Manager {
     @Override
     public void removeContact(String name) {
         if(searchContacts(name) == null){
-            System.out.format("%nContact %s not found.%n%n", name);
+            System.out.format(ANSI_RED + "%nContact %s not found.%n%n" + ANSI_RESET, name);
             return;
         }
         db.removeContact(name);
-        System.out.format("%nContact %s has been deleted.%n%n", name);
+        System.out.format(ANSI_BLUE + "%nContact %s has been deleted.%n%n" + ANSI_RESET, name);
     }
 
     @Override
     public void printMenu() {
-        System.out.println("1 - View contacts.");
-        System.out.println("2 - Add a new contact.");
-        System.out.println("3 - Search a contact by name.");
-        System.out.println("4 - Delete an existing contact.");
-        System.out.println("5 - exit");
+        System.out.println(ANSI_BLUE + "1 - View contacts." + ANSI_RESET);
+        System.out.println(ANSI_BLUE + "2 - Add a new contact." + ANSI_RESET);
+        System.out.println(ANSI_BLUE + "3 - Search a contact by name." + ANSI_RESET);
+        System.out.println(ANSI_BLUE + "4 - Delete an existing contact." + ANSI_RESET);
+        System.out.println(ANSI_BLUE + "5 - exit" + ANSI_RESET);
     }
 
     @Override
@@ -48,31 +54,35 @@ public class ContactManager implements Manager {
     }
 
     private void deleteContact() {
-        String name = input.getString("Who do you want to delete? ");
+        String name = input.getString(ANSI_YELLOW + "Who do you want to delete? " + ANSI_RESET);
         removeContact(name);
     }
 
     private void searchForContact() {
-        String name = input.getString("Who are you looking for? ");
+        String name = input.getString(ANSI_YELLOW + "Who are you looking for? " + ANSI_RESET);
+        if(searchContacts(name) == null){
+            System.out.format(ANSI_RED + "%nContact %s not found.%n%n" + ANSI_RESET, name);
+            return;
+        }
         Contact contact = searchContacts(name);
         System.out.format("%n%s%n%n", contact);
     }
 
     @Override
     public void addContact() {
-        String name = input.getString("Enter the name of the contact: ");
-        String phoneNumber = input.getString("Enter the phone number of the contact: ");
+        String name = input.getString(ANSI_YELLOW + "Enter the name of the contact: " + ANSI_RESET);
+        String phoneNumber = input.getString(ANSI_YELLOW + "Enter the phone number of the contact: " + ANSI_RESET);
         Contact contact = new Contact(name, phoneNumber);
         if (db.getContact(name) != null){
-            String prompt = String.format("There is already a contact named %s. Would you like to overwrite it? [y/n] ", name);
+            String prompt = String.format(ANSI_RED + "There is already a contact named %s. Would you like to overwrite it? [y/n] " + ANSI_RESET, name);
             if (input.yesNo(prompt)) {
                 db.editContact(contact);
-                System.out.format("%nContact %s has been updated.%n", contact.getName());
+                System.out.format(ANSI_BLUE + "%nContact %s has been updated.%n" + ANSI_RESET, contact.getName());
                 return;
             }
         }
         db.addContact(contact);
-        System.out.format("%nContact added!%n%n");
+        System.out.format(ANSI_BLUE + "%nContact added!%n%n" + ANSI_RESET);
     }
 
     @Override
