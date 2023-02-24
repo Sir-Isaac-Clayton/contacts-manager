@@ -42,7 +42,7 @@ public class ContactManager implements IManager {
                 2 - Add a new contact.
                 3 - Search a contact by name.
                 4 - Delete an existing contact.
-                5 - exit%n
+                5 - Exit%n
                 """);
     }
 
@@ -130,11 +130,11 @@ public class ContactManager implements IManager {
     }
 
     private boolean validatedPhoneNumber(String phoneNumber) {
-        boolean isvalid = phoneNumber.length() == 10 && phoneNumber.matches("[0-9]+");
-        if (!isvalid) {
+        boolean isValid = phoneNumber.length() == 10 && phoneNumber.matches("[0-9]+");
+        if (!isValid) {
             System.out.format(renderRed("%n⚠ Invalid phone number. Please try again.%n%n"));
         }
-        return isvalid;
+        return isValid;
     }
 
     @Override
@@ -174,7 +174,7 @@ public class ContactManager implements IManager {
     }
 
     public void writeToFile(){
-        db.writeToFile(db.getAllContacts());
+        db.writeToFile();
     }
 
     public String importTitle() {
