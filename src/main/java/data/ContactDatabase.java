@@ -19,6 +19,16 @@ public class ContactDatabase implements IContactWriter {
         importContacts();
     }
 
+    @Override
+    public void setPath(Path path) {
+        try {
+            Files.deleteIfExists(path);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        writer.setPath(path);
+    }
+
     private void importContacts() {
 
         try {
@@ -30,6 +40,7 @@ public class ContactDatabase implements IContactWriter {
                    contacts.add(new Contact(arr[0], arr[1]));
                 }
             }
+            setPath(path);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -75,8 +86,8 @@ public class ContactDatabase implements IContactWriter {
     }
 
     @Override
-    public void writeContact(String contact) {
-        writer.writeContact(contact);
+    public void writeToFile(List<Contact> contacts) {
+        writer.writeToFile(contacts);
     }
 
     public int size() {

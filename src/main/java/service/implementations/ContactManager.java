@@ -65,7 +65,7 @@ public class ContactManager implements IManager {
             doChoice(choice);
 
             if (choice == 5){
-                System.out.format(renderYellow("%nGoodbye!"));
+                System.out.format(renderYellow("%nGoodbye!%n"));
                 writeToFile();
                 break;
             }
@@ -174,8 +174,7 @@ public class ContactManager implements IManager {
     }
 
     public void writeToFile(){
-        List<Contact> contacts = db.getAllContacts();
-        contacts.forEach(contact -> db.writeContact(contact.getName() + "," + contact.getPhoneNumber()));
+        db.writeToFile(db.getAllContacts());
     }
 
     public String importTitle() {
