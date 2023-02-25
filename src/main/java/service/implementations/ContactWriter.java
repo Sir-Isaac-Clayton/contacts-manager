@@ -12,29 +12,48 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class ContactWriter implements IContactWriter {
+    public static final String CONTACTS_TXT = "contacts.txt";
 
     Path path;
+    public ContactWriter() {
+        path = Paths.get(CONTACTS_TXT);
+    }
+
     @Override
     public void writeToFile(List<Contact> contacts) {
+        deleteContactsFile();
         if (contacts.size() > 0) {
-            String data = contacts.stream()
-                    .map(c -> String.join(",", List.of(c.getName(),c.getPhoneNumber())) + "\n")
-                    .collect(Collectors.joining());
             try {
-                Files.writeString(path, data, StandardOpenOption.APPEND);
+                Files.writeString(path, getStringToWrite(contacts), StandardOpenOption.CREATE);
             } catch (IOException e) {
-                System.err.format("Error writing contact '{%s}' to file: %s%n", contacts, e.getMessage());
+                System.err.format("Error writing contacts to file: %s%n", e.getMessage());
             }
         }
     }
 
-    @Override
-    public void setPath(Path path) {
+    private String getStringToWrite(List<Contact> contacts) {
+        return contacts.stream()
+                .map(c -> String.join(",", List.of(c.getName(),c.getPhoneNumber())) + "\n")
+                .collect(Collectors.joining());
+    }
+
+    private void deleteContactsFile() {
         try {
-            this.path = path != null ? path : Paths.get("contacts.txt");
-            Files.createFile(this.path);
+            Files.deleteIfExists(path);
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            System.out.println(e.getMessage());
         }
     }
+
+    //File line in file and delete it
+    public void deleteContactFromFile(String contact) {
+        try {
+            List<String> lines = Files.readAllLines(path);
+            lines.remove(contact);
+            Files.write(path, lines);
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
 }

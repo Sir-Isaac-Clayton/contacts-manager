@@ -9,7 +9,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ContactDatabase implements IContactWriter {
+public class ContactDatabase {
     List<Contact> contacts;
     IContactWriter writer;
 
@@ -17,16 +17,6 @@ public class ContactDatabase implements IContactWriter {
         this.contacts = new ArrayList<>();
         this.writer = writer;
         importContacts();
-    }
-
-    @Override
-    public void setPath(Path path) {
-        try {
-            Files.deleteIfExists(path);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        writer.setPath(path);
     }
 
     private void importContacts() {
@@ -40,7 +30,6 @@ public class ContactDatabase implements IContactWriter {
                    contacts.add(new Contact(arr[0], arr[1]));
                 }
             }
-            setPath(path);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -56,6 +45,8 @@ public class ContactDatabase implements IContactWriter {
         for (Contact contact : contacts) {
             if(name.equalsIgnoreCase(contact.getName())) {
                 contacts.remove(contact);
+                String contactLine = contact.getName() + "," + contact.getPhoneNumber();
+                writer.deleteContactFromFile(contactLine);
                 break;
             }
         }
@@ -85,8 +76,7 @@ public class ContactDatabase implements IContactWriter {
         return contacts;
     }
 
-    @Override
-    public void writeToFile(List<Contact> contacts) {
+    public void writeToFile() {
         writer.writeToFile(contacts);
     }
 
